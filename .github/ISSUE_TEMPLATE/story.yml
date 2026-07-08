@@ -1,0 +1,34 @@
+name: Story
+description: 動作確認可能な最小単位（0.5–3日、AC は5個以下）
+title: "[Story] "
+labels: ["type:story"]
+body:
+  - type: input
+    id: parent-epic
+    attributes:
+      label: 親 Epic
+      placeholder: "#12"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: やること
+      description: 完了時に何がどう動くようになるか
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: 最大5個。超える場合は Story を分割する。0.5–3日に収まらない場合も分割する
+      placeholder: |
+        - [ ] AC 1
+        - [ ] AC 2
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足
+      description: 実装ヒント・参照すべき DesignDoc の節など（任意）

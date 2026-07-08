@@ -1,0 +1,42 @@
+name: Epic
+description: DesignDoc を伴う開発単位。動作確認可能な Story 群に分割される
+title: "[Epic] "
+labels: ["type:epic"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        起票後、`.claude/rules/design-doc-template.md` を `docs/design/epic-NN-<topic>.md` に
+        コピーして DesignDoc 初版（AC 転記・Scope・構成図・シーケンス図）を作成する。
+        フローの定義: `docs/workflow.md`
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 目的 / 背景
+      description: この Epic は何のためにあるか。どんな価値への一歩か
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: DesignDoc に転記して管理する。検証可能な形で書く
+      placeholder: |
+        - [ ] AC 1
+        - [ ] AC 2
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: スコープ外
+      description: この Epic でやらないこと（どの Epic に委ねるかも書けるとよい）
+  - type: textarea
+    id: related
+    attributes:
+      label: 関連
+      description: 前進させる PRD の要件 / ARCHITECTURE のコンポーネント / 依存する Epic
+      placeholder: |
+        - PRD: <要件>
+        - ARCHITECTURE: <コンポーネント>
+        - depends on: #NN

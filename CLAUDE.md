@@ -1,0 +1,56 @@
+# CLAUDE.md
+
+AI コーディングアシスタント（Claude Code 等）と人間のコントリビュータ向けガイドライン。
+本ファイルは**要約とポインタのみ**を置く。実体は §2 の各正本にある。
+
+## 1. Project Overview
+
+<!-- TODO: プロダクト名と一行説明。詳細は docs/PRD.md に書き、ここには要約のみを置く -->
+
+## 2. Documents（正本の所在）
+
+| 知りたいこと | 正本 |
+|---|---|
+| なぜ・何を（要件） | [docs/PRD.md](docs/PRD.md) |
+| 全体構成・不変条件 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| 開発フローの定義 | [docs/workflow.md](docs/workflow.md) |
+| Epic ごとの詳細設計 | `docs/design/epic-NN-*.md` |
+| 個別の設計判断 | [docs/adr/](docs/adr/README.md) |
+
+## 3. Tech Stack
+
+<!-- TODO: 言語 / パッケージ管理 / lint / テストランナーを書く（例: uv / ruff / pytest） -->
+
+## 4. Development Workflow
+
+GitHub issue 駆動の2階層。定義の正本は [docs/workflow.md](docs/workflow.md)。
+
+- **Epic**（`type:epic`）: DesignDoc（`docs/design/epic-NN-<topic>.md`）を必ず伴う開発単位。
+- **Story**（`type:story`）: 動作確認可能な最小単位。0.5–3日、Acceptance Criteria は5個以下。
+- 流れ: Epic 起票 → DesignDoc 初版（AC 転記・Scope・構成図・**シーケンス図**）→
+  Story 分割 → 実装のたびに DesignDoc を詳細化（Decisions / Story Timeline / Test Design Matrix）。
+- ブランチはトランクベース + Epic stacking。Epic は `epic/<issue番号>-<slug>`、
+  Story は既定で Epic ブランチに直接コミット。
+- Test Design Matrix 全✓ が Epic PR のレビューゲート。
+- **AI アシスタントは Epic PR を `main` にマージしない。**人間がレビューしてマージする。
+
+## 5. ADR ハードルール
+
+実装中に計画外の設計判断が出たら、PR マージ前に必ず次のいずれかを行う
+（詳細: [docs/workflow.md §6](docs/workflow.md)）:
+
+1. ADR を作る（既定。`docs/adr/NNNN-<slug>.md`）。
+2. Epic の DesignDoc `## Decisions` に書く（効果がその Epic を超えない場合のみ）。
+3. PR 説明に明記して人間に確認する（1 も 2 も過剰な小さい判断のみ）。
+
+黙って判断して先へ進むことを禁止する。
+
+## 6. Rules and Templates
+
+- [.claude/rules/adr-template.md](.claude/rules/adr-template.md)
+- [.claude/rules/design-doc-template.md](.claude/rules/design-doc-template.md)
+
+## 7. Language
+
+<!-- TODO: 言語ルールを書く（例: 応答は日本語、コード・フィールド名・ツール名は英語、
+     ドキュメントは日本語単一言語） -->
