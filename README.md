@@ -8,18 +8,19 @@ Epic / Story / DesignDoc / ADR による Claude Code 開発フローを、新規
 要件を**動作確認可能な最小単位（Story）**に分割し、そのまとまり（Epic）ごとの DesignDoc を
 **開発しながら詳細化**することで、AI の生成物と人間の認知を近づける開発フロー。
 **ADR** と **mermaid シーケンス図**を必須要素とする。
-定義の正本: [docs/workflow.md](docs/workflow.md)
+定義の正本: [docs/WORKFLOW.md](docs/WORKFLOW.md)
 
 ## 含まれるもの
 
 | パス | 役割 |
 |---|---|
 | `CLAUDE.md` | AI 向けガイドライン（要約とポインタのみ。TODO をプロジェクトに合わせて埋める） |
-| `docs/workflow.md` | 開発フローの正典 |
+| `docs/WORKFLOW.md` | 開発フローの正典 |
 | `docs/PRD.md` | 要件の正本テンプレート（なぜ・何を） |
 | `docs/ARCHITECTURE.md` | アーキテクチャの正本テンプレート（不変条件・構成図） |
 | `docs/adr/README.md` | ADR 索引 |
 | `docs/design/` | Epic ごとの DesignDoc 置き場 |
+| `.claude/rules/coding-principles.md` | コーディング原則（YAGNI / t-wada 流 TDD、必須） |
 | `.claude/rules/adr-template.md` | ADR テンプレート |
 | `.claude/rules/design-doc-template.md` | DesignDoc テンプレート（シーケンス図・責務表・Test Design Matrix） |
 | `.github/ISSUE_TEMPLATE/epic.yml` / `story.yml` | Epic / Story の起票フォーム |
@@ -44,7 +45,7 @@ TODO 節に各プロジェクトで書く。
 
 1. 次のファイルをコピーする:
    `.claude/rules/` 一式、`.github/ISSUE_TEMPLATE/epic.yml` と `story.yml`、
-   `.github/PULL_REQUEST_TEMPLATE.md`、`docs/workflow.md`、`docs/adr/README.md`、
+   `.github/PULL_REQUEST_TEMPLATE.md`、`docs/WORKFLOW.md`、`docs/adr/README.md`、
    `docs/design/`（空ディレクトリ）、`scripts/bootstrap.sh`
 2. `docs/PRD.md` / `docs/ARCHITECTURE.md` をテンプレートから作成する
    （既存の要件・設計文書があれば節構成に合わせて再編する）

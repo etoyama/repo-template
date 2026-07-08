@@ -13,7 +13,7 @@ AI コーディングアシスタント（Claude Code 等）と人間のコン�
 |---|---|
 | なぜ・何を（要件） | [docs/PRD.md](docs/PRD.md) |
 | 全体構成・不変条件 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| 開発フローの定義 | [docs/workflow.md](docs/workflow.md) |
+| 開発フローの定義 | [docs/WORKFLOW.md](docs/WORKFLOW.md) |
 | Epic ごとの詳細設計 | `docs/design/epic-NN-*.md` |
 | 個別の設計判断 | [docs/adr/](docs/adr/README.md) |
 
@@ -23,7 +23,7 @@ AI コーディングアシスタント（Claude Code 等）と人間のコン�
 
 ## 4. Development Workflow
 
-GitHub issue 駆動の2階層。定義の正本は [docs/workflow.md](docs/workflow.md)。
+GitHub issue 駆動の2階層。定義の正本は [docs/WORKFLOW.md](docs/WORKFLOW.md)。
 
 - **Epic**（`type:epic`）: DesignDoc（`docs/design/epic-NN-<topic>.md`）を必ず伴う開発単位。
 - **Story**（`type:story`）: 動作確認可能な最小単位。0.5–3日、Acceptance Criteria は5個以下。
@@ -37,7 +37,7 @@ GitHub issue 駆動の2階層。定義の正本は [docs/workflow.md](docs/workf
 ## 5. ADR ハードルール
 
 実装中に計画外の設計判断が出たら、PR マージ前に必ず次のいずれかを行う
-（詳細: [docs/workflow.md §6](docs/workflow.md)）:
+（詳細: [docs/WORKFLOW.md §6](docs/WORKFLOW.md)）:
 
 1. ADR を作る（既定。`docs/adr/NNNN-<slug>.md`）。
 2. Epic の DesignDoc `## Decisions` に書く（効果がその Epic を超えない場合のみ）。
@@ -45,12 +45,21 @@ GitHub issue 駆動の2階層。定義の正本は [docs/workflow.md](docs/workf
 
 黙って判断して先へ進むことを禁止する。
 
-## 6. Rules and Templates
+## 6. Coding Principles（ハードルール）
 
+正本: [.claude/rules/coding-principles.md](.claude/rules/coding-principles.md)
+
+- **YAGNI** — 今必要でない機能・抽象を先回りで作らない。共通化は Rule of Three。
+- **TDD（t-wada 流）** — Red → Green → Refactor を小さく回す。テストリストを作り、
+  仮実装 → 三角測量 → 明白な実装の順で一般化する。テストコードが正（仕様）。
+
+## 7. Rules and Templates
+
+- [.claude/rules/coding-principles.md](.claude/rules/coding-principles.md)
 - [.claude/rules/adr-template.md](.claude/rules/adr-template.md)
 - [.claude/rules/design-doc-template.md](.claude/rules/design-doc-template.md)
 
-## 7. Language
+## 8. Language
 
 <!-- TODO: 言語ルールを書く（例: 応答は日本語、コード・フィールド名・ツール名は英語、
      ドキュメントは日本語単一言語） -->

@@ -73,9 +73,11 @@ flowchart LR
    を `docs/design/epic-NN-<topic>.md` にコピーして書く。初版で埋めるのは AC 転記・Scope・
    Architecture 図・シーケンス図まで。**全節を最初に埋めきらない**（開発時詳細化がこのフローの核）。
 3. **Story 分割** — DesignDoc の構造に沿って Story を起票する。
-4. **Story 実装** — 実装のたびに DesignDoc を詳細化する。計画外の判断は Decisions
-   （Epic-scoped）か ADR（cross-epic）へ、完了は Story Timeline へ、テストは
-   Test Design Matrix へ反映する。
+4. **Story 実装** — TDD（Red → Green → Refactor、
+   [.claude/rules/coding-principles.md](../.claude/rules/coding-principles.md)）で実装する。
+   Story の AC がテストリストの種になる。実装のたびに DesignDoc を詳細化する:
+   計画外の判断は Decisions（Epic-scoped）か ADR（cross-epic）へ、完了は Story Timeline へ、
+   テストは Test Design Matrix へ反映する。
 5. **Epic 完了** — Test Design Matrix 全✓ が Epic PR のレビューゲート。
    **AI アシスタントは Epic PR をマージしない。**人間がレビューしてマージする。
 

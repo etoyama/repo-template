@@ -21,6 +21,26 @@ flowchart TD
     A --> B["Component B"]
 ```
 
+## 代表シーケンス
+
+<!-- システムを貫く代表的なユースケース1〜2本を mermaid の sequenceDiagram で描く。
+     Epic 固有の詳細シーケンスは各 DesignDoc に置き、ここには「このシステムは
+     こう動く」を一目で掴める全体レベルの流れだけを置く。 -->
+
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant A as Component A
+    participant B as Component B
+    participant X as External(FS/API)
+    U->>A: request
+    A->>B: delegate
+    B->>X: call
+    X-->>B: result
+    B-->>A: result
+    A-->>U: response
+```
+
 ## コンポーネントと責務
 
 <!-- 各コンポーネントの責務と境界を全体像のレベルで書く。

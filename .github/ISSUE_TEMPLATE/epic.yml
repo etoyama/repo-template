@@ -8,7 +8,7 @@ body:
       value: |
         起票後、`.claude/rules/design-doc-template.md` を `docs/design/epic-NN-<topic>.md` に
         コピーして DesignDoc 初版（AC 転記・Scope・構成図・シーケンス図）を作成する。
-        フローの定義: `docs/workflow.md`
+        フローの定義: `docs/WORKFLOW.md`
   - type: textarea
     id: purpose
     attributes:
