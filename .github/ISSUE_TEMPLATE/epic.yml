@@ -6,37 +6,20 @@ body:
   - type: markdown
     attributes:
       value: |
+        背景・ユーザーストーリー・AC の正本は DesignDoc に置く（docs/adr/0001-designdoc-owns-requirements.md）。
         起票後、`.claude/rules/design-doc-template.md` を `docs/design/epic-NN-<topic>.md` に
-        コピーして DesignDoc 初版（AC 転記・Scope・構成図・シーケンス図）を作成する。
+        コピーして DesignDoc 初版を作る。この issue には要約とリンクだけを書く。
         フローの定義: `docs/WORKFLOW.md`
   - type: textarea
-    id: purpose
+    id: summary
     attributes:
-      label: 目的 / 背景
-      description: この Epic は何のためにあるか。どんな価値への一歩か
+      label: 要約
+      description: この Epic で何を実現するかを1〜2行で書く。背景や AC は DesignDoc に書く
     validations:
       required: true
-  - type: textarea
-    id: acceptance-criteria
+  - type: input
+    id: design-doc
     attributes:
-      label: Acceptance Criteria
-      description: DesignDoc に転記して管理する。検証可能な形で書く
-      placeholder: |
-        - [ ] AC 1
-        - [ ] AC 2
-    validations:
-      required: true
-  - type: textarea
-    id: out-of-scope
-    attributes:
-      label: スコープ外
-      description: この Epic でやらないこと（どの Epic に委ねるかも書けるとよい）
-  - type: textarea
-    id: related
-    attributes:
-      label: 関連
-      description: 前進させる PRD の要件 / ARCHITECTURE のコンポーネント / 依存する Epic
-      placeholder: |
-        - PRD: <要件>
-        - ARCHITECTURE: <コンポーネント>
-        - depends on: #NN
+      label: DesignDoc
+      description: DesignDoc 初版を作ったら、そのパスかリンクを書く
+      placeholder: "docs/design/epic-01-<topic>.md"
