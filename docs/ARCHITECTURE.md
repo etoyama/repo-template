@@ -21,6 +21,18 @@ flowchart TD
     A --> B["Component B"]
 ```
 
+## コンテキストマップ
+
+<!-- 境界づけられたコンテキストが2つ以上になったら描く（ADR-0002）。1つのうちは
+     「コンテキスト: <名前>（docs/UBIQUITOUS_LANGUAGE.md）」と1行書くだけでよい。
+     関係は ddd-crew/context-mapping のパターン名（Customer/Supplier、Anticorruption Layer、
+     Shared Kernel など）で書く。https://github.com/ddd-crew/context-mapping -->
+
+```mermaid
+flowchart LR
+    Sales["販売<br/>docs/domain/sales/"] -->|"Customer/Supplier"| Shipping["配送<br/>docs/domain/shipping/"]
+```
+
 ## 代表シーケンス
 
 <!-- システムを貫く代表的なユースケース1〜2本を mermaid の sequenceDiagram で描く。
@@ -46,8 +58,8 @@ sequenceDiagram
 <!-- 各コンポーネントの責務と境界を全体像のレベルで書く。
      詳細な責務分割は各 Epic の DesignDoc（Module Responsibilities 表）で行う。 -->
 
-- **<Component A>** — <責務>
-- **<Component B>** — <責務>
+- <Component A>: <責務>
+- <Component B>: <責務>
 
 ## ディレクトリ構成
 

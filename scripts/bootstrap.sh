@@ -13,3 +13,12 @@ create_label "type:epic"  "5319E7" "Epic: DesignDoc を伴う開発単位"
 create_label "type:story" "0E8A16" "Story: 動作確認可能な最小単位（0.5-3日・AC5個以下）"
 
 echo "bootstrap done: labels type:epic / type:story"
+
+# yomiyasu（日本語の推敲スキル、docs/adr/0003）は Claude Code のプラグインなので、
+# このスクリプトからは入れられない。導入手順を案内する。
+cat <<'MSG'
+
+next: 日本語の推敲に yomiyasu を使う（docs/WORKFLOW.md §8）。Claude Code で次を実行する:
+  /plugin marketplace add nanaism/yomiyasu
+  /plugin install yomiyasu@yomiyasu
+MSG
