@@ -118,6 +118,12 @@ Story 実装中に、承認済みの計画が想定していなかった設計�
 [.claude/rules/adr-template.md](../.claude/rules/adr-template.md)、索引は
 [docs/adr/README.md](adr/README.md)。
 
+ADR の Problem と Decision Analysis、および人間に判断を仰ぐときの提示は、
+[decision-analysis](https://github.com/etoyama/decision-analysis) プラグインの
+`decision-analysis` スキルの形式に従う（決定: [ADR-0004](adr/0004-decision-analysis-plugin.md)）。
+プラグインは `.claude/settings.json` で宣言し、clone ごとに `scripts/install-plugins.sh` で入れる。形式の正本はスキルにあり、本書には写さない。
+提示が足りなかったときは、人間が「DA で」と言うか、理由を聞き返せば出し直される。
+
 ## 7. ユビキタス言語
 
 用語の正本は [docs/UBIQUITOUS_LANGUAGE.md](UBIQUITOUS_LANGUAGE.md)
@@ -133,7 +139,8 @@ Story 実装中に、承認済みの計画が想定していなかった設計�
 ## 8. 日本語の文書の推敲
 
 日本語の文書は [yomiyasu](https://github.com/nanaism/yomiyasu) で推敲する
-（決定: [ADR-0003](adr/0003-yomiyasu-for-japanese-docs.md)。導入は `scripts/bootstrap.sh` が案内する）。
+（決定: [ADR-0003](adr/0003-yomiyasu-for-japanese-docs.md)。導入は `scripts/install-plugins.sh`、
+[ADR-0004](adr/0004-decision-analysis-plugin.md)）。
 
 | 項目 | 内容 |
 |---|---|

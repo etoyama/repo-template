@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted（導入方法の決定は [ADR-0004](0004-decision-analysis-plugin.md) で置き換えた）
 
 ## Context
 
