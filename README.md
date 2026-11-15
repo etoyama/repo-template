@@ -26,7 +26,9 @@ ADR と mermaid シーケンス図を必須要素とする。
 | `.claude/rules/design-doc-template.md` | DesignDoc テンプレート（シーケンス図・責務表・Test Design Matrix） |
 | `.github/ISSUE_TEMPLATE/epic.yml` / `story.yml` | Epic / Story の起票フォーム |
 | `.github/PULL_REQUEST_TEMPLATE.md` | PR テンプレート（DesignDoc / ADR 更新のチェック付き） |
-| `scripts/bootstrap.sh` | GitHub 設定（labels）の作成。冪等 |
+| `scripts/bootstrap.sh` | GitHub 設定（labels）の作成と、作成者の clone へのプラグイン導入。冪等 |
+| `scripts/install-plugins.sh` | clone ごとのプラグイン導入（yomiyasu / decision-analysis）。冪等 |
+| `.claude/settings.json` | このフローが使う Claude Code プラグインの宣言 |
 
 テックスタック非依存。スタック固有の記述（lint・テストランナー等）は CLAUDE.md の
 TODO 節に各プロジェクトで書く。
@@ -34,8 +36,9 @@ TODO 節に各プロジェクトで書く。
 ## 使い方: 新規リポジトリ
 
 1. GitHub で「Use this template」からリポジトリを作成する
-2. clone して `./scripts/bootstrap.sh` を実行する（labels `type:epic` / `type:story` を作成）。
-   表示される手順で yomiyasu プラグインを入れる
+2. clone して `./scripts/bootstrap.sh` を実行する。labels `type:epic` / `type:story` を作り、
+   yomiyasu と decision-analysis のプラグインを入れる。
+   ほかの人は clone したあと `./scripts/install-plugins.sh` だけを実行する
 3. `CLAUDE.md` の TODO（Overview / Tech Stack / Language）を埋める
 4. `docs/PRD.md`・`docs/ARCHITECTURE.md`・`docs/UBIQUITOUS_LANGUAGE.md` をテンプレートに沿って書く
 5. この `README.md` をプロダクトの README に書き換える
@@ -48,8 +51,9 @@ TODO 節に各プロジェクトで書く。
 1. 次のファイルをコピーする。
    `.claude/rules/` 一式、`.github/ISSUE_TEMPLATE/epic.yml` と `story.yml`、
    `.github/PULL_REQUEST_TEMPLATE.md`、`docs/WORKFLOW.md`、`docs/adr/README.md`、
-   `docs/adr/0001`〜`0003`（このフローの決定。WORKFLOW とテンプレートが参照する）、
-   `docs/design/`（空ディレクトリ）、`scripts/bootstrap.sh`
+   `docs/adr/0001`〜`0004`（このフローの決定。WORKFLOW とテンプレートが参照する）、
+   `docs/design/`（空ディレクトリ）、`scripts/bootstrap.sh`、`scripts/install-plugins.sh`。
+   `.claude/settings.json` は、既存のものがあれば `enabledPlugins` と `extraKnownMarketplaces` をマージする
 2. `docs/PRD.md` / `docs/ARCHITECTURE.md` / `docs/UBIQUITOUS_LANGUAGE.md` をテンプレートから作成する
    （既存の要件・設計文書があれば節構成に合わせて再編する）
 3. 既存の `CLAUDE.md` に、本テンプレート `CLAUDE.md` の §2（正本の所在）・

@@ -48,6 +48,10 @@ GitHub issue 駆動の2階層。定義の正本は [docs/WORKFLOW.md](docs/WORKF
 
 黙って判断して先へ進むことを禁止する。
 
+人間に判断を仰ぐときと ADR を書くときは、`decision-analysis` スキルの形式で提示する
+（[ADR-0004](docs/adr/0004-decision-analysis-plugin.md)。プラグインは `.claude/settings.json` で宣言し、
+clone ごとに `scripts/install-plugins.sh` で入れる）。
+
 ## 6. Coding Principles（ハードルール）
 
 正本: [.claude/rules/coding-principles.md](.claude/rules/coding-principles.md)

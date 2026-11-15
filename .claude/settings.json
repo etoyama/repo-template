@@ -1,0 +1,20 @@
+{
+  "enabledPlugins": {
+    "yomiyasu@yomiyasu": true,
+    "decision-analysis@decision-analysis": true
+  },
+  "extraKnownMarketplaces": {
+    "yomiyasu": {
+      "source": {
+        "source": "github",
+        "repo": "nanaism/yomiyasu"
+      }
+    },
+    "decision-analysis": {
+      "source": {
+        "source": "github",
+        "repo": "etoyama/decision-analysis"
+      }
+    }
+  }
+}

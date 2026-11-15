@@ -151,7 +151,8 @@ AC再解釈）は `docs/adr/` の ADR に置く。
 ### Decision: <kebab-case-slug>
 
 - What: <決定>
-- Why: <動機>
+- Why: <動機。どの課題を解くか>
+- Criteria: <比べた基準と、その出典（課題・AC・人間の発言）。決め手になった基準>
 - Affected modules: <一覧>
 - Alternatives considered: <一覧と簡潔な理由>
 - Consequences: <正負の含意>
