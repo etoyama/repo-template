@@ -124,6 +124,43 @@ P+Q を採る。
 - 導入は `scripts/install-plugins.sh`（clone ごと、冪等）が行う。`scripts/bootstrap.sh` は labels を作ったあとにこれを呼ぶ。
 - `claude` CLI がない、または導入に失敗したときは警告だけを出し、labels の作成は止めない。
 
+### 第三者のプラグインの固定
+
+- 課題4: 第三者のプラグイン（yomiyasu）は、作者が push した内容が、レビューを経ずに派生 repo へ入る。
+  yomiyasu は Python のスクリプトを含む。
+- 前提にした事実は次のとおり。公式ドキュメント marketplace-reference / cli-reference を読み、
+  使い捨ての repo で CLI 2.1.227 を実行して確かめた。
+  - marketplace の source には `ref` を書け、CLI では `owner/repo#ref` で指定する。
+  - `ref` にコミットの SHA を書く固定は v2.1.324 以降で使える。2.1.227 では clone が失敗する。
+  - tag の `ref`（`v3.1.0`）は 2.1.227 でも導入でき、2回実行しても settings.json に差分を出さない。
+  - marketplace の記録は名前ごとに1つで、スコープをまたいで共有される。repo 側で tag に固定すると、
+    その環境のユーザー側の同じ名前の記録も tag 固定になる。
+
+| # | 基準 | 区分 | 分類 | 重み（決めた人） | 出典 |
+|---|---|---|---|---|---|
+| M1 | 今使っている CLI で導入が動く | Must | - | - | 課題3 |
+| W1 | 中身を変えるには、レビューできる差分が要る | Want | 解決 | 高（人間） | 課題4 |
+| W2 | 利用者に CLI の更新を求めない | Want | 費用 | 中（AI の推測） | - |
+
+| Must | T. tag で固定する | S. SHA で固定する | 固定しない |
+|---|---|---|---|
+| M1 | 満たす | 満たさない（2.1.227 では clone が失敗する） | 満たす |
+
+| Want | T | 固定しない |
+|---|---|---|
+| W1 | tag を上げる PR が差分になる。作者が tag を付け直すと、差分なしで中身が変わる | 差分にならない |
+| W2 | 更新は要らない | 更新は要らない |
+
+- 差がつく基準: W1。
+- 感度: 利用者全員の CLI が v2.1.324 以降にそろえば S が M1 を満たし、付け直しの穴のない S が W1 で勝つ。
+
+T を採る。
+
+- yomiyasu は tag `v3.1.0` に固定する。上げるときは `.claude/settings.json` の `ref` と
+  `scripts/install-plugins.sh` の `#ref` を同じ PR で変える。
+- decision-analysis は自分で管理する repo なので固定しない。
+- 利用者の CLI が v2.1.324 以降にそろったら、SHA の固定に替える。
+
 ## Consequences
 
 ### Positive
@@ -138,6 +175,9 @@ P+Q を採る。
   発動条件が入らない（`/plugin` の Errors には出る）。
 - クラウドのセッションでは、プラグインが読み込まれず、発動条件が入らない。
 - 入れたくない人にも有効化を求める。外すときは `.claude/settings.local.json` で `false` にする。
+- yomiyasu の tag は作者が付け直せる。SHA の固定に替えるまで、差分なしで中身が変わる穴が残る。
+- 自分のユーザー側で yomiyasu を固定せずに入れている人も、この repo で導入すると tag 固定になる。
+- yomiyasu を上げるときは、`ref` を2か所で変える。
 - 発動条件の見極めは AI の判断に任せる。黙って進むことを機械的には止められない。
 - AskUserQuestion の hook による検査は入れていない。漏れが続いたら別の ADR で足す。
 

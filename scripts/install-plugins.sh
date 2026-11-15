@@ -20,7 +20,8 @@ install_plugin() {
   failed=1
 }
 
-install_plugin "nanaism/yomiyasu" "yomiyasu@yomiyasu"
+# 第三者のプラグインは tag で固定する。上げるときは .claude/settings.json の ref と一緒に変える（docs/adr/0004）。
+install_plugin "nanaism/yomiyasu#v3.1.0" "yomiyasu@yomiyasu"
 install_plugin "etoyama/decision-analysis" "decision-analysis@decision-analysis"
 
 if [ "$failed" -eq 0 ]; then
