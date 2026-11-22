@@ -68,7 +68,8 @@ CLAUDE.md の肥大化はこのルールで構造的に防ぐ。
 ```mermaid
 flowchart LR
     A["Epic 起票<br/>(type:epic)"] --> B["DesignDoc 初版<br/>背景 / ユーザーストーリー /<br/>構成図 / ドメインモデル図 /<br/>シーケンス図"]
-    B --> C["Story 分割<br/>(type:story, AC≤5)"]
+    B --> B2["全体の整合 / 見本<br/>→ 人間の承認"]
+    B2 --> C["Story 分割<br/>(type:story, AC≤5)"]
     C --> D["Story 実装"]
     D --> E["DesignDoc 詳細化<br/>Decisions / Timeline /<br/>Test Matrix ✓"]
     E -->|次の Story| D
@@ -84,6 +85,14 @@ flowchart LR
    このフローの核になる。
    初版を出す前に、「この DesignDoc だけを読んだ人が、誰のどんな課題を解くのか説明できるか」を確かめ、
    §8 の推敲を行う。Epic issue に DesignDoc へのリンクを書く。
+   人間に初版の承認を求める前に、次の2段を行う（決定: [ADR-0005](adr/0005-designdoc-draft-checks-whole-and-mockup.md)）。
+   - **全体の整合**: 個別の判断がそろったら、全体を見渡して確かめる。判断どうしが矛盾していないか、
+     AC・Scope・既存の ADR とかみ合うかを見る。直す点があれば、人間に示して決め直す。
+   - **見本**: 利用者が触る成果物（画面、HTML、レポート、CLI の出力、API、生成されるファイルなど）の見本を作り、
+     人間とイメージを合わせる。置き場は問わない。成果物が実際に届く場所があればそこに置き、
+     そのホストの制約も確かめる。見本はコミットしない。分かった事実と、確かめていない前提を、
+     DesignDoc か ADR に書き戻す。利用者から見える変化がない Epic では省いてよい。
+     省いたら、その理由を Story Timeline に1行書く。
 3. Story 分割: ユーザーストーリーに沿って Story を起票し、DesignDoc の Stories 表に追記する。
 4. Story 実装: TDD（Red → Green → Refactor、
    [.claude/rules/coding-principles.md](../.claude/rules/coding-principles.md)）で実装する。
