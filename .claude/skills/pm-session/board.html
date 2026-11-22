@@ -1,4 +1,4 @@
-<title>Epic {{EPIC_NO}} マージ段取り</title>
+<title>Epic マージ段取り</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap">
@@ -107,15 +107,15 @@ h2 .count { font-family: var(--font-mono); font-size: 13px; color: var(--muted);
 
 <main>
   <header>
-    <div class="eyebrow">{{REPO_NAME}} / Epic {{EPIC_NO}} / #{{EPIC_ISSUE}}</div>
-    <h1>{{EPIC_TITLE}}: マージまでの段取り</h1>
+    <div class="eyebrow" id="eyebrow">Epic</div>
+    <h1 id="epic-title">マージまでの段取り</h1>
     <p class="summary" id="headline">段取りを読み込んでいる。</p>
     <div class="meter" id="meter" aria-label="段取りの進み具合"></div>
     <div class="metaline">
       <span id="progress-text">—</span>
       <span id="updated">—</span>
-      <a href="{{REPO_URL}}/issues/{{EPIC_ISSUE}}">Epic issue #{{EPIC_ISSUE}}</a>
-      <a href="{{DESIGNDOC_URL}}">DesignDoc</a>
+      <a id="epic-link" hidden>Epic issue</a>
+      <a id="designdoc-link" hidden>DesignDoc</a>
     </div>
     <div class="notice" id="notice" hidden></div>
   </header>
@@ -156,7 +156,13 @@ h2 .count { font-family: var(--font-mono); font-size: 13px; color: var(--muted);
 <script>
 const STATUS = { done: "済み", in_progress: "進行中", waiting_human: "あなた待ち", ready: "着手できる", blocked: "前提待ち" };
 const OWNER = { human: "あなた", ai: "AI" };
-const REPO = "{{REPO_URL}}";
+// The board's identity comes from board/summary in the db, never from text pasted into this file,
+// so a title or URL can only ever reach the page as a text node or a checked https link.
+const GITHUB_REPO = /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+let REPO = null;
+const positiveInt = v => { const n = Number(v); return Number.isInteger(n) && n > 0 ? n : null; };
+const repoUrl = v => typeof v === "string" && GITHUB_REPO.test(v) ? v : null;
+const docUrl = v => typeof v === "string" && REPO && v.startsWith(REPO + "/") ? v : null;
 const state = { steps: [], summary: null, log: [], stepsLoaded: false };
 
 function el(tag, attrs, ...kids) {
@@ -196,8 +202,9 @@ function depsLine(s) {
 }
 function refs(s) {
   const box = el("div", { class: "refs" });
-  if (s.issue) box.append(el("a", { href: `${REPO}/issues/${s.issue}`, text: `#${s.issue}` }));
-  if (s.pr) box.append(el("a", { href: `${REPO}/pull/${s.pr}`, text: `PR #${s.pr}` }));
+  const issue = positiveInt(s.issue), pr = positiveInt(s.pr);
+  if (issue && REPO) box.append(el("a", { href: `${REPO}/issues/${issue}`, text: `#${issue}` }));
+  if (pr && REPO) box.append(el("a", { href: `${REPO}/pull/${pr}`, text: `PR #${pr}` }));
   if (s.session) box.append(el("span", { text: `セッション: ${s.session}` }));
   if (s.model) box.append(el("span", { text: `モデル: ${s.model}` }));
   if (s.updated) box.append(el("span", { text: `更新 ${s.updated}` }));
@@ -215,6 +222,16 @@ function render() {
   const steps = state.steps;
   byId = Object.fromEntries(steps.map(s => [s.id, s]));
   const sum = state.summary || {};
+  REPO = repoUrl(sum.repo_url);
+  const epicNo = typeof sum.epic_no === "string" || typeof sum.epic_no === "number" ? String(sum.epic_no) : "";
+  const epicIssue = positiveInt(sum.epic_issue);
+  document.getElementById("eyebrow").textContent = [sum.repo_name, epicNo && `Epic ${epicNo}`, epicIssue && `#${epicIssue}`].filter(Boolean).join(" / ") || "Epic";
+  document.getElementById("epic-title").textContent = `${typeof sum.epic_title === "string" ? sum.epic_title + ": " : ""}マージまでの段取り`;
+  document.title = epicNo ? `Epic ${epicNo} マージ段取り` : "Epic マージ段取り";
+  const setLink = (id, href) => { const a = document.getElementById(id); if (href) { a.href = href; a.hidden = false; } else { a.removeAttribute("href"); a.hidden = true; } };
+  setLink("epic-link", REPO && epicIssue ? `${REPO}/issues/${epicIssue}` : null);
+  document.getElementById("epic-link").textContent = epicIssue ? `Epic issue #${epicIssue}` : "Epic issue";
+  setLink("designdoc-link", docUrl(sum.designdoc_url));
   document.getElementById("headline").textContent = sum.headline || (state.stepsLoaded && !steps.length ? "まだ段取りが書かれていない。Claude が最初の段取りを書き込むと、ここに出る。" : "段取りを読み込んでいる。");
   document.getElementById("updated").textContent = sum.updated_at ? `最終更新 ${sum.updated_at}` : "";
 
