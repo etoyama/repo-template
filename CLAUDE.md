@@ -36,6 +36,8 @@ GitHub issue 駆動の2階層。定義の正本は [docs/WORKFLOW.md](docs/WORKF
   Story は既定で Epic ブランチに直接コミット。
 - Test Design Matrix 全✓ が Epic PR のレビューゲート。
 - **AI アシスタントは Epic PR を `main` にマージしない**。人間がレビューしてマージする。
+- Epic は PM セッションが段取りボードで統括し、DesignDoc 初版と Story は子セッションに渡す。
+  手順の正本は `.claude/skills/pm-session/SKILL.md`（[ADR-0006](docs/adr/0006-pm-session-and-board.md)）。
 
 ## 5. ADR ハードルール
 
