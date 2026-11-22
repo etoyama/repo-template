@@ -158,11 +158,19 @@ const STATUS = { done: "済み", in_progress: "進行中", waiting_human: "あ�
 const OWNER = { human: "あなた", ai: "AI" };
 // The board's identity comes from board/summary in the db, never from text pasted into this file,
 // so a title or URL can only ever reach the page as a text node or a checked https link.
-const GITHUB_REPO = /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+// A segment of only dots would let the URL climb out of the repository once a browser normalizes it.
+const GITHUB_REPO = /^https:\/\/github\.com\/(?!\.+\/)[A-Za-z0-9_.-]+\/(?!\.+$)[A-Za-z0-9_.-]+$/;
 let REPO = null;
 const positiveInt = v => { const n = Number(v); return Number.isInteger(n) && n > 0 ? n : null; };
 const repoUrl = v => typeof v === "string" && GITHUB_REPO.test(v) ? v : null;
-const docUrl = v => typeof v === "string" && REPO && v.startsWith(REPO + "/") ? v : null;
+// Compare parsed URLs, so "../" in the value cannot point outside the repository.
+const docUrl = v => {
+  if (typeof v !== "string" || !REPO) return null;
+  try {
+    const u = new URL(v), base = new URL(REPO + "/");
+    return u.protocol === "https:" && u.host === "github.com" && u.href.startsWith(base.href) ? u.href : null;
+  } catch { return null; }
+};
 const state = { steps: [], summary: null, log: [], stepsLoaded: false };
 
 function el(tag, attrs, ...kids) {
