@@ -35,9 +35,11 @@ PM のモデルは opus でよい。重い判断は子に任せる。
 
 ### 作り方
 
-1. `board.html`（このスキルのフォルダ）をスクラッチパッドに写し、`{{REPO_NAME}}`・`{{REPO_URL}}`・`{{EPIC_NO}}`・`{{EPIC_ISSUE}}`・`{{EPIC_TITLE}}`・`{{DESIGNDOC_URL}}` を置き換える。
-2. `Artifact` で publish する。`capabilities` は `{"db":{"rules":[{"path":"","read":"view","write":"admin"}]}}`。
-3. 設計の段の行を `ArtifactData` の `batch` で入れる。判断ごとに人間の行を1つ置く（`d1`…）。DesignDoc 初版、初版の承認、Story の分割、Epic のゲート、マージの行も置く。
+1. `board.html`（このスキルのフォルダ）を、書き換えずにそのまま `Artifact` で publish する。`capabilities` は `{"db":{"rules":[{"path":"","read":"view","write":"admin"}]}}`。
+   ページの中身に Epic の題や URL を書き込まない。題は issue から取るので、HTML や script として読まれる文字を含みうる。
+2. `ArtifactData` の `batch` で、`board/summary` にボードの名乗りを入れる。`repo_name`、`repo_url`（`https://github.com/<owner>/<repo>` の形だけを受け付ける）、`epic_no`、`epic_issue`、`epic_title`、`designdoc_url`（`repo_url` の下の URL だけを受け付ける）。
+   ページはこれを文字として出し、形の合わない URL と、正の整数でない issue と PR の番号は、リンクにしない。
+3. 同じ `batch` で、設計の段の行を入れる。判断ごとに人間の行を1つ置く（`d1`…）。DesignDoc 初版、初版の承認、Story の分割、Epic のゲート、マージの行も置く。
 
 ページは、担当にかかわらず `waiting_human` の行を「あなたの番」に出す。「次に始められること」は `depends_on` から計算する。
 
@@ -46,7 +48,7 @@ PM のモデルは opus でよい。重い判断は子に任せる。
 | collection / doc | 項目 |
 |---|---|
 | `steps/<id>` | `order`（並び）、`key`（短い名前）、`phase`、`title`、`detail`、`status`、`owner`、`depends_on`、`action`、`issue`、`pr`、`session`、`model`、`updated` |
-| `board/summary` | `headline`、`updated_at` |
+| `board/summary` | `headline`、`updated_at`、`repo_name`、`repo_url`、`epic_no`、`epic_issue`、`epic_title`、`designdoc_url` |
 | `log/<doc_id>` | `at`、`who`、`text` |
 
 - `status`: `done` / `in_progress` / `waiting_human` / `ready` / `blocked`
