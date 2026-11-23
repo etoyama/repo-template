@@ -35,6 +35,7 @@ GitHub issue 駆動の2階層。定義の正本は [docs/WORKFLOW.md](docs/WORKF
 - ブランチはトランクベース + Epic stacking。Epic は `epic/<issue番号>-<slug>`、
   Story は既定で Epic ブランチに直接コミット。
 - Test Design Matrix 全✓ が Epic PR のレビューゲート。
+- Epic のリリースまで終えたら、振り返りを1回回し、反映する束を人間が選ぶ（[ADR-0010](docs/adr/0010-retrospective-after-epic.md)）。
 - **AI アシスタントは Epic PR を `main` にマージしない**。人間がレビューしてマージする。
 - Epic は PM セッションが段取りボードで統括し、DesignDoc 初版と Story は子セッションに渡す。
   手順の正本は `.claude/skills/pm-session/SKILL.md`（[ADR-0006](docs/adr/0006-pm-session-and-board.md)）。
