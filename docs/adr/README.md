@@ -19,3 +19,6 @@ Epic 内で完結する決定は ADR にせず、その Epic の Design Doc の 
 | [0008](0008-ask-before-narrowing-what-worked.md) | 今まで動いていたものを動かなくする判断は、Decisions に書くだけでなく人間に聞く | Accepted |
 | [0009](0009-designdoc-decisions-scope-first.md) | DesignDoc 初版では、成果物の単位と範囲の判断を先に聞き、中身で迷ったら見本を見比べてから決める | Accepted |
 | [0010](0010-retrospective-after-epic.md) | Epic のリリースの後に、軽量な定型の振り返りを回す | Accepted |
+| [0011](0011-start-wave-one-before-designdoc-approval.md) | 波 1 の子は、DesignDoc 初版の子を立てるターンで、待機の指示で立てておく | Accepted |
+| [0012](0012-shared-notes-in-app-folder-checked-by-path.md) | 共有ノートはアプリの置き場に置き、子が報告した絶対パスを PM が確かめてボードに残す | Accepted |
+| [0013](0013-write-rules-reasons-and-helpers-into-designdoc-and-brief.md) | DesignDoc とブリーフには、守りたい規則、触らない理由、使う既存の道具を書く | Accepted |
