@@ -29,3 +29,7 @@ Epic 内で完結する決定は ADR にせず、その Epic の Design Doc の 
 | [0018](0018-check-proposals-against-real-artifact.md) | 子セッションやレビューが出した案は、PM が実物と照らしてから人間に渡す | Accepted |
 | [0019](0019-human-reads-real-screen-after-first-display-story.md) | 利用者が読む画面を変える Epic では、画面を初めて変える Story の後に、人間が実物の画面と言い回しの一覧を読む | Accepted |
 | [0020](0020-recheck-whole-after-mockup-comments.md) | DesignDoc 初版で、見本へのコメントを反映した後に、全体の整合をもう一度回す | Accepted |
+| [0021](0021-verify-premises-in-production-shape.md) | 前提を確かめる見本と検証用のものは、本番と同じ形で作る | Accepted |
+| [0022](0022-unattended-run-done-after-one-unattended-pass.md) | 無人の実行は、Run now の後に、本番の時刻の1回を無人で通してから完了にする | Accepted |
+| [0023](0023-measure-shared-checkout-settings-before-recommending.md) | 共有の checkout の設定を変える案は、効く範囲を書き、使い捨ての場で測ってから推奨する | Accepted |
+| [0024](0024-copy-counts-and-ids-from-command-output.md) | ブリーフと PR の説明に書く数と id は、コマンドやツールの結果から写す | Accepted |

@@ -123,6 +123,10 @@ PM が epic ブランチの上で作業するときは、`git switch --detach or
 
 ### ブリーフの型
 
+ブリーフに書く数と id（session id、issue と PR の番号、AC の数）は、書くターンでコマンドやツールを呼び、その結果から写す
+（[ADR-0024](../../../docs/adr/0024-copy-counts-and-ids-from-command-output.md)）。記憶や、会話の前の方から写さない。
+例: session id は `get_session`（`"self"`）や `list_sessions`、`start_session` の結果から、issue と PR の番号は `gh` の出力から、AC の数は DesignDoc を `grep -c` で数えて写す。
+
 `background` に次を書く。
 
 - Epic の目的と、この作業の位置。
@@ -140,7 +144,7 @@ PM が epic ブランチの上で作業するときは、`git switch --detach or
 - 前の Story やレビューが先送りした指摘のうち、この Story が直すもの。同じものをボードの Epic のゲートの行の `detail` にも書き、ゲートで直ったかを確かめる。
 - 守ること。TDD、構造テストを先に Red にすること、計画外の判断が2件を超えたら PM に知らせること、人間に判断を仰ぐ前に30分以内に試せることは試して結果を添えること（WORKFLOW §6）、実物での確かめ方、確認のコマンド。
 - Domain Model 図を変えたら、そのセッションで人間の承認を取ること。PR まで溜めない。PR の説明にも変更を書く（WORKFLOW §4 の4）。
-- Story の完了の条件（WORKFLOW §4 の4）。CHANGELOG の `[Unreleased]` の行と、バグ・セキュリティの観点のレビューを含める。
+- Story の完了の条件（WORKFLOW §4 の4）。CHANGELOG の `[Unreleased]` の行と、バグ・セキュリティの観点のレビューを含める。無人で走るもの（スケジュール実行など）を作る・変える Story では、本番の時刻の1回を無人で通すことも含める（下の5）。
 - ブランチの扱い。自分のブランチから `git push origin HEAD:<epic ブランチ>` で epic ブランチに積む。force-push しない。`main` には push しない。
 - 完了の形と、次の作業に引き継ぐこと（共有ノートに書く）。
 
@@ -162,6 +166,13 @@ DesignDoc 初版のブリーフには、WORKFLOW §4 の2の判断の順と2段�
 - **人間に聞く前**: 「あなたの番」が今の状態と合っているかを確かめてから報告する。
 - **聞く前に試す**（WORKFLOW §6、[ADR-0017](../../../docs/adr/0017-try-before-asking-human.md)）: 人間に判断を仰ぐ前に、30分以内に試せることは試す。聞くときに、何を変え、何回確かめ、どうなったかを添える。Decision Analysis は、試しても決まらない判断（好み、方針）に使う。試すのは、手元で元に戻せることだけにする。
 - **子やレビューの案は、実物と照らしてから渡す**（[ADR-0018](../../../docs/adr/0018-check-proposals-against-real-artifact.md)）: 子セッションやレビューが出した案を人間に渡す前に、PM が実物（画面、記録、コマンドの出力）と照らす。渡すときに、何と照らし、案が当たる所がいくつあったかを書く。当たる所が無ければ渡さず、出した子に戻す。PM が実物を見られないときは、照らしていないことと、その理由を書いて渡す。
+- **無人の実行は、本番の時刻の1回を無人で通してから完了にする**（[ADR-0022](../../../docs/adr/0022-unattended-run-done-after-one-unattended-pass.md)）: スケジュール実行のように無人で走るものを作る・変える作業（前提の検証を含む）は、Run now で通した後に、本番の時刻の1回を無人で通してから完了にする。Run now では人間が確認に答えられるが、本番の時刻には答える人がいない。日付で変わる文字列のように、Run now では出ない確認もある。
+  - 待つ間、ボードの行は `done` にせず、`detail` に次の本番の時刻を書く。無人の実行を前提にする後の行は、この行を `depends_on` に入れる。
+  - 止まったら、確認の文と、止めたコマンドやツールを共有ノートに書く。直したら、次の本番の時刻の1回から数え直す。
+- **共有の checkout の設定を変える案は、使い捨ての場で測ってから推奨する**（[ADR-0023](../../../docs/adr/0023-measure-shared-checkout-settings-before-recommending.md)）: `main` の checkout の設定（`.claude/settings.local.json`、`.claude/settings.json` など）は、その下の `.claude/worktrees/` の worktree の全セッション（PM と子）と、そこを作業フォルダにする無人の実行に効く。
+  - 案にはこの効く範囲を書く。
+  - 推奨する前に、リポジトリの外の一時フォルダに clone した checkout と、その下に作った worktree に同じ設定を置き、使う道具（`git`、子が使う道具、無人の実行の手順の道具）が通るか止まるかを両方で確かめる。道具の名前の一致は、読んでも分かりにくい（例: `permissions.deny` の `Artifact` で `ArtifactData` も止まった）。
+  - 推奨するときに、測った道具の一覧と結果、本番と違う所を添える。測れなかったら、測っていないことと理由を書く。
 
 ## 6. 片付け
 
@@ -196,7 +207,7 @@ PM が自分で回す。ゲートは PM のワークツリーで回す（`git sw
    - 人間が findings を「Epic で直す / issue にする」に仕分ける。Epic で直すものは上の5と同じ手順で直す。issue にしたものは起票する。
    - 終わったら試す場所を元に戻し、Story Timeline に1行書く（findings の件数、Epic で直した件数、issue の番号）。
    - 利用者から見える変化が無い Epic では省いてよい。省いたら、その理由を Story Timeline に1行書く。
-7. 直したことを Story Timeline に書き、Epic PR を開く。PR の説明には、AC と Matrix の結果、Domain Model 図の変更、実データで使ってみた結果（仕分けと issue の番号）、残した判断（人間に確かめてほしいこと）を書く。レビューの結果は PR のコメントに残す。
+7. 直したことを Story Timeline に書き、Epic PR を開く。PR の説明には、AC と Matrix の結果、Domain Model 図の変更、実データで使ってみた結果（仕分けと issue の番号）、残した判断（人間に確かめてほしいこと）を書く。説明に書く数（AC、Matrix、findings の件数）と番号は、コマンドで数えて写す（[ADR-0024](../../../docs/adr/0024-copy-counts-and-ids-from-command-output.md)）。レビューの結果は PR のコメントに残す。
 8. PR に結び付くと「PR が閉じたら自動でアーカイブ」が有効になる。マージの後に issue を確かめる仕事と振り返り（下の9）が残るので、切るかを人間に聞く。
 9. マージの後、Epic と Story の issue が閉じたかを確かめ、閉じていなければ閉じる。ボードは振り返りの後に閉じる。
 
